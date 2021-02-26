@@ -15,7 +15,12 @@ const io = socket(server)
 io.on('connection', function(socket) {
     console.log("Made socket connection.", socket.id)
 
+    // Handle chat event.
     socket.on("chat", (data) => { // 👈 Listening to all my sockets for 'chat' message
         io.sockets.emit("chat", data) // 👈 Send back data to all sockets
+    })
+
+    socket.on("typing", (data) => {
+        socket.broadcast.emit("typing", data) // 👈 Emit toevery other single one, but not this original one.
     })
 })
