@@ -12,7 +12,10 @@ app.use(express.static('public'))
 
 // 📍 Socket setup
 const io = socket(server)
-
 io.on('connection', function(socket) {
     console.log("Made socket connection.", socket.id)
+
+    socket.on("chat", (data) => { // 👈 Listening to all my sockets for 'chat' message
+        io.sockets.emit("chat", data) // 👈 Send back data to all sockets
+    })
 })
